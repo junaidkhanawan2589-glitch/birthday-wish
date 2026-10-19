@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday / Special Day ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #120318 0%, #2b0b2e 50%, #1a0521 100%);
+            color: #f3e8ff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.6), 0 0 40px rgba(168, 85, 247, 0.4);
+        }
+        /* Floating balloons animation */
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(1); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) scale(1.1); opacity: 0; }
+        }
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: float 10s infinite linear;
+        }
+        .candle-flame {
+            animation: flicker 0.8s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            100% { transform: scale(1.1) rotate(2deg); opacity: 1; filter: drop-shadow(0 0 8px #f43f5e); }
+        }
+        .chapter-step {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .chapter-step.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-pink-500 selection:text-white flex items-center justify-center p-4">
+
+    <!-- Floating Background Balloons -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" id="balloon-container"></div>
+
+    <main class="relative z-10 max-w-xl w-full mx-auto">
+
+        <!-- STEP 1: PASSCODE SCREEN -->
+        <div id="step-1" class="chapter-step active">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <div class="w-16 h-16 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-400 text-2xl">
+                    🔒
+                </div>
+                <h2 class="font-serif text-3xl font-bold mb-2 glow-text">Enter the Passcode</h2>
+                <p class="text-pink-200/70 text-sm mb-6">Hint: Your special nickname ❤️</p>
+                
+                <input type="password" id="passcode-input" placeholder="Enter secret code..." 
+                    class="w-full bg-black/40 border border-pink-500/30 rounded-xl px-4 py-3 text-center text-xl tracking-widest text-pink-200 focus:outline-none focus:border-pink-500 mb-6">
+                
+                <button onclick="checkPasscode()" 
+                    class="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/30 hover:opacity-90 transition transform active:scale-95 cursor-pointer">
+                    Unlock Experience ✨
+                </button>
+                <p id="error-msg" class="text-red-400 text-xs mt-3 hidden">Incorrect passcode, try again!</p>
+            </div>
+        </div>
+
+        <!-- STEP 2: WELCOME / CHAPTER 1 -->
+        <div id="step-2" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-sm mb-4 tracking-wider uppercase">
+                    Chapter 01 📖✨
+                </span>
+                <h1 class="font-serif text-4xl font-bold mb-4 glow-text">
+                    Happy Birthday, Meri shahzadi❤️
+                </h1>
+                <p class="text-pink-200/80 text-base mb-8">
+                    AJ AP KA SPECIAL DAY PA AP KA LAYA MAZATDARRR SI WISH 
+                </p>
+                <button onclick="nextStep(3)" 
+                    class="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-full font-semibold text-white shadow-lg shadow-pink-500/40 hover:scale-105 transition transform active:scale-95">
+                    Start Journey 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: MAKE A WISH (CAKE & CANDLES) -->
+        <div id="step-3" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20 relative overflow-hidden">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs mb-3 tracking-wider uppercase">
+                    Chapter 02 🎂
+                </span>
+                <h2 class="font-serif text-3xl font-semibold mb-2">Make a Wish</h2>
+                <p class="text-pink-200/70 text-sm mb-6">KAKA MAZAYDARRR CHEEZI MANG LO</p>
+                
+                <div class="w-64 h-48 mx-auto bg-gradient-to-b from-purple-900/60 to-pink-950/80 rounded-2xl p-4 border border-pink-500/30 shadow-inner flex flex-col justify-end items-center relative mb-6">
+                    <!-- Candles -->
+                    <div id="candles-box" class="flex space-x-6 mb-2">
+                        <div class="relative flex flex-col items-center">
+                            <div id="flame-1" class="w-3 h-5 bg-amber-400 rounded-full candle-flame mb-1 shadow-[0_0_10px_#f59e0b]"></div>
+                            <div class="w-2 h-10 bg-pink-300 rounded-sm"></div>
+                        </div>
+                        <div class="relative flex flex-col items-center">
+                            <div id="flame-2" class="w-3 h-5 bg-amber-400 rounded-full candle-flame mb-1 shadow-[0_0_10px_#f59e0b]"></div>
+                            <div class="w-2 h-10 bg-pink-300 rounded-sm"></div>
+                        </div>
+                        <div class="relative flex flex-col items-center">
+                            <div id="flame-3" class="w-3 h-5 bg-amber-400 rounded-full candle-flame mb-1 shadow-[0_0_10px_#f59e0b]"></div>
+                            <div class="w-2 h-10 bg-pink-300 rounded-sm"></div>
+                        </div>
+                    </div>
+                    <!-- Cake Body -->
+                    <div class="w-full h-20 bg-gradient-to-r from-pink-600 via-rose-500 to-pink-700 rounded-xl shadow-lg flex items-center justify-center text-white font-bold tracking-wider text-sm border-t-2 border-white/20">
+                        ✨ MAKE A WISH ✨
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="blowCandles()" id="blow-btn"
+                        class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/40 hover:opacity-90 transition">
+                        Blow Out Candles 💨
+                    </button>
+                    <p id="wish-status" class="text-pink-300 text-xs font-medium h-5"></p>
+                    <button onclick="nextStep(4)" id="cake-next-btn" class="hidden w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-pink-200 transition">
+                        Next Chapter ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: CUTE DUDU BUBU ANIMATED STICKER CARD -->
+        <div id="step-4" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs mb-3 tracking-wider uppercase">
+                    Chapter 03 🐼
+                </span>
+                
+                <!-- DUDU BUBU ANIMATED GIF STICKER -->
+                <div class="w-36 h-36 mx-auto mb-6 flex items-center justify-center overflow-hidden drop-shadow-lg">
+                    <img src="png/png1.gif" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain">
+                </div>
+
+                <h3 class="font-serif text-2xl font-semibold mb-2">My Favorite Human on Earth</h3>
+                <p class="text-pink-200/70 text-sm mb-8">mera bacha chai kitni doro ho ap meri pasnadida ourat ho.and i love you so much kaka</p>
+                
+                <button onclick="nextStep(5)" 
+                    class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/40 hover:opacity-90 transition">
+                    Next Chapter ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 5: GIFT BOX REVEAL -->
+        <div id="step-5" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs mb-3 tracking-wider uppercase">
+                    Chapter 04 🎁
+                </span>
+                <div id="gift-closed" class="cursor-pointer py-6" onclick="openGift()">
+                    <div class="w-28 h-28 bg-gradient-to-br from-amber-500 to-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-amber-500/20 hover:scale-105 transition transform">
+                        <span class="text-5xl"> <img src="png/png2.webp" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain"></span>
+                    </div>
+                    <h3 class="font-serif text-xl font-semibold text-pink-300">A Gift Wrapped With Love</h3>
+                    <p class="text-xs text-pink-200/60 mt-1">Click to open your surprise!</p>
+                </div>
+                
+                <div id="gift-opened" class="hidden py-4">
+                    <div class="w-16 h-16 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                         <img src="png/png3.webp" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-serif text-2xl font-semibold text-pink-200 mb-2">Infinite Love & Forever!</h3>
+                    <p class="text-pink-300/80 text-sm mb-6">a surprice you already know i am coming to celebrate your birthday❤️</p>
+                    <button onclick="nextStep(6)" 
+                        class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/40 hover:opacity-90 transition">
+                        Next Chapter ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 6: A LETTER FOR YOU -->
+        <div id="step-6" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl shadow-2xl border border-pink-500/20">
+                <span class="block text-center inline-block w-full px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs mb-3 tracking-wider uppercase">
+                    Chapter 05 💌
+                </span>
+                <h3 class="font-serif text-2xl font-semibold text-center mb-4 glow-text">A Letter For You</h3>
+                <div class="space-y-3 text-pink-100/90 leading-relaxed font-light text-sm mb-6">
+                    <p>My shahzadi,</p>
+                    <p>wo din jab ap meri life ma hai thi 20july2025 a special day of all time. aj sa pala jitna birthday thi wo mera bagar hoi ya ap ki second birthday ha mera sath ma is ko itna special bana chayta ho k jitna ma bana sakta ho and i try my best you will always happy in your life. </p>
+                    <p>aj ka din aj ka din to mera laya both special ha aj ap is dunnya ma hai thi 
+                    itna haseen larki meri dunya ma ha gai mera laya hai , orr meri dua ha ap hamsha khush reha hamsha ap chota bacha ko tera reha mera sath meri jaan bann kr mera kaka ban kr . allah ap ka sara dream pora karya orr ap ko sari khushya day orr meeeko ap ko orr pyar karna ki power dy .both zayda sara pyar ap ki meethi ki teref sa .</p>
+                    <h4>MA PYAR YOU WIFE G💌</h4>
+                    <p class="text-right font-serif italic text-pink-300 pt-2">yours MEETHI, ❤️</p>
+                </div>
+                <button onclick="nextStep(7)" 
+                    class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/40 hover:opacity-90 transition">
+                    Next Chapter ➔
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 7: THE OFFICIAL AWARDS -->
+        <div id="step-7" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs mb-3 tracking-wider uppercase">
+                    Chapter 06 🏆
+                </span>
+                <h3 class="font-serif text-2xl font-semibold mb-6 glow-text">The Official Awards</h3>
+                <div class="grid grid-cols-2 gap-3 mb-6 text-left">
+                    <div class="glass-card p-4 rounded-xl border border-pink-500/10">
+                        <div class="text-2xl mb-1"> <img src="png/png9.webp" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain"></div>
+                        <h4 class="font-semibold text-pink-200 text-xs">Best Smile</h4>
+                        <p class="text-[10px] text-pink-300/60 mt-0.5">Ap jis jaga hoti ha sab happy ho jata ha.</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border border-pink-500/10">
+                        <div class="text-2xl mb-1"> <img src="png/png6.gif" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain"></div>
+                        <h4 class="font-semibold text-pink-200 text-xs">Most Magical</h4>
+                        <p class="text-[10px] text-pink-300/60 mt-0.5">jis jaga ap hoti ha wo megical ho jati ha</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border border-pink-500/10">
+                        <div class="text-2xl mb-1"> <img src="png/png8.gif" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain"></div>
+                        <h4 class="font-semibold text-pink-200 text-xs">Comfort Champion</h4>
+                        <p class="text-[10px] text-pink-300/60 mt-0.5">MA AP KA PAS SAFE FEEL KARTA HO</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border border-pink-500/10">
+                        <div class="text-2xl mb-1"> <img src="png/png7.gif" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain"></div>
+                        <h4 class="font-semibold text-pink-200 text-xs">Biggest Heart</h4>
+                        <p class="text-[10px] text-pink-300/60 mt-0.5">Purest soul in the world.</p>
+                    </div>
+                </div>
+                <button onclick="nextStep(8)" 
+                    class="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl font-semibold text-white shadow-lg shadow-pink-500/40 hover:opacity-90 transition">
+                    Final Celebration 🎉
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 8: FINAL CELEBRATION -->
+        <div id="step-8" class="chapter-step">
+            <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border border-pink-500/20">
+                <div class="w-20 h-20 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                     <img src="png/png10.gif" alt="Dudu Bubu Cute Hug" class="w-full h-full object-contain">
+                </div>
+                <h3 class="font-serif text-3xl font-bold mb-3 glow-text">Forever & Always</h3>
+                <p class="text-pink-200/80 text-sm mb-8">
+                    THANK YOU FOR BEING IN MY LIFE and for making life so wonderful. Happy Birthday once again, Mera Bacha! ❤️
+                </p>
+                <button onclick="restartExperience()" 
+                    class="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-pink-200 transition">
+                    Replay Experience 🔄
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Generate Floating Balloons
+        const balloonContainer = document.getElementById('balloon-container');
+        const colors = ['#ec4899', '#f43f5e', '#a855f7', '#fb7185', '#d946ef'];
+        
+        for (let i = 0; i < 15; i++) {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            const size = Math.random() * 30 + 30;
+            balloon.style.width = `${size}px`;
+            balloon.style.height = `${size * 1.2}px`;
+            balloon.style.left = `${Math.random() * 100}vw`;
+            balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.animationDuration = `${Math.random() * 8 + 7}s`;
+            balloon.style.animationDelay = `${Math.random() * 5}s`;
+            balloonContainer.appendChild(balloon);
+        }
+
+        // Switch Steps Function
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.chapter-step').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(`step-${stepNumber}`);
+            target.classList.add('active');
+
+            if (stepNumber === 3 || stepNumber === 5 || stepNumber === 8) {
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Passcode Verification
+        function checkPasscode() {
+            const passcode = document.getElementById('passcode-input').value.trim().toLowerCase();
+            const correctCode = 'kaka'; // Passcode set here
+            
+            if (passcode === correctCode || passcode === '2006' || passcode === '0000' || passcode === '') {
+                nextStep(2);
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                const error = document.getElementById('error-msg');
+                error.classList.remove('hidden');
+                setTimeout(() => error.classList.add('hidden'), 3000);
+            }
+        }
+
+        // Allow pressing "Enter" on keyboard to unlock
+        document.getElementById('passcode-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPasscode();
+            }
+        });
+
+        // Blow Candles
+        function blowCandles() {
+            document.getElementById('flame-1').style.display = 'none';
+            document.getElementById('flame-2').style.display = 'none';
+            document.getElementById('flame-3').style.display = 'none';
+            
+            document.getElementById('wish-status').innerText = "✨ Candles blown out! May all your wishes come true! ✨";
+            
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.5 }
+            });
+
+            document.getElementById('blow-btn').classList.add('hidden');
+            document.getElementById('cake-next-btn').classList.remove('hidden');
+        }
+
+        // Open Gift
+        function openGift() {
+            document.getElementById('gift-closed').classList.add('hidden');
+            document.getElementById('gift-opened').classList.remove('hidden');
+            
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.7 }
+            });
+        }
+
+        // Restart
+        function restartExperience() {
+            document.getElementById('passcode-input').value = '';
+            document.getElementById('flame-1').style.display = 'block';
+            document.getElementById('flame-2').style.display = 'block';
+            document.getElementById('flame-3').style.display = 'block';
+            document.getElementById('wish-status').innerText = '';
+            document.getElementById('blow-btn').classList.remove('hidden');
+            document.getElementById('cake-next-btn').classList.add('hidden');
+            document.getElementById('gift-closed').classList.remove('hidden');
+            document.getElementById('gift-opened').classList.add('hidden');
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>
